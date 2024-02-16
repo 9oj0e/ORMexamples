@@ -29,12 +29,18 @@ public class ViewData2 {
     }
 
     public ViewData2(List<DBData2> dbData2List) {
-        this.boardId = dbData2List.get(0).getBoardId();
-        this.title = dbData2List.get(0).getTitle();
-        this.content = dbData2List.get(0).getContent();
-        for (DBData2 data : dbData2List){ // <-
-            Reply r = new Reply(data.getReplyId(), data.getComment());
-            addReply(r);
+        if (dbData2List.size() > 0) {
+            this.boardId = dbData2List.get(0).getBoardId();
+            this.title = dbData2List.get(0).getTitle();
+            this.content = dbData2List.get(0).getContent();
         }
+        /*
+        dbData2List.stream().forEach(dbData2 -> {
+            addReply(new Reply(dbData2.getReplyId(), dbData2.getComment()));
+        });
+        */
+        replies = dbData2List.stream()
+                .map(dbData2 -> new Reply(dbData2.getReplyId(), dbData2.getComment()))
+                .toList();
     }
 }
