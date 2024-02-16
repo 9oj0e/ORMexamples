@@ -1,6 +1,7 @@
 package ex02;
 
-import java.util.ArrayList;
+import ex02.model.Reply;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,19 @@ public class App2 {
 
         List<DBData2> dbList = Arrays.asList(dbData1, dbData2, dbData3);
 
+        // 조회 결과가 없을 때, 종료시켜야한다.
+        if(dbList.size() == 0)
+            return;
         // 2. dbList(컬렉션을) ViewData2(오브젝트)에 옮기시오 - ORM
-        
+        ViewData2 viewData2 = new ViewData2(
+                dbList.get(0).getBoardId(),
+                dbList.get(0).getTitle(),
+                dbList.get(0).getContent()
+        );
+        for (DBData2 data : dbList){
+            Reply r = new Reply(data.getReplyId(), data.getComment());
+            viewData2.addReply(r);
+        }
+        System.out.println(viewData2);
     }
 }
